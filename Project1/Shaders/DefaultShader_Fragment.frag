@@ -56,7 +56,7 @@ uniform bool isCutout;
 uniform int DIRECTION_LIGHT_ID =0;
 uniform int POINT_LIGHT_ID =1;
 uniform int SPOTLIGHT_ID =2;
-const int LIGHTCOUNT = 15;
+const int LIGHTCOUNT = 50;
 uniform sLight lights[LIGHTCOUNT];
 
 uniform int ShaderBlend;

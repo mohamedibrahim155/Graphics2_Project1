@@ -64,6 +64,7 @@ public:
 	Camera* sceneViewcamera;
 	Camera* gameScenecamera;
 	Camera* renderTextureCamera;
+	Camera* renderTextureCamera2;
 	bool isPlayMode = false;
 
 	glm::mat4 projection;

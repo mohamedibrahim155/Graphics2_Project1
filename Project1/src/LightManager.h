@@ -16,7 +16,7 @@ public:
     // This is called every frame
     void UpdateUniformValues(GLuint shaderID);
     void UpdateUniformValuesToShader(Shader* shader);
-    static const unsigned int MAX_LIGHT = 11;
+    static const unsigned int MAX_LIGHT = 50;
     
     const std::vector<Light*>& GetLightList();
 private:

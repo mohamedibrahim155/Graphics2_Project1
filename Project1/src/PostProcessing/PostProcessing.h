@@ -23,12 +23,13 @@ public:
 
 	 void SceneDraw() override;
 
+	 ChromaticEffect* chromatic;
+	 PixelizationEffect* pixelization;
 private:
 
 	std::vector<BaseEffect*> listOfeffects;
 
-	ChromaticEffect* chromatic;
-	PixelizationEffect* pixelization;
+	
 
 	Shader* finalShader;
 	
