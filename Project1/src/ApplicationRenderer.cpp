@@ -125,7 +125,9 @@ void ApplicationRenderer::WindowInitialize(int width, int height,  std::string w
     GraphicsRender::GetInstance().SetCamera(sceneViewcamera);
 
     sceneViewcamera->InitializeCamera(CameraType::PERSPECTIVE, 45.0f, 0.1f, 100.0f);
-    sceneViewcamera->transform.position = glm::vec3(0, 0, - 1.0f);
+    sceneViewcamera->transform.position = glm::vec3(5.00f, 3.00f, 18.00f);
+   // sceneViewcamera->transform.SetRotation(glm::vec3(-10.60f, 2.20f,0));
+    sceneViewcamera->transform.SetRotation(glm::vec3(-10.30f,0,0));
 
     gameScenecamera->InitializeCamera(CameraType::PERSPECTIVE, 45.0f, 0.1f, 100.0f);
     gameScenecamera->transform.position = glm::vec3(0, 0, -1.0f);
@@ -195,73 +197,107 @@ void ApplicationRenderer::Start()
 
     gameScenecamera->postprocessing->InitializePostProcessing();
 
-    Model* floor = new Model((char*)"Models/Floor/Floor.fbx");
-    floor->transform.SetRotation(glm::vec3(90, 0, 0));
-    floor->transform.SetPosition(glm::vec3(0, -2, 0));
-   
-    Model* floor2 = new Model(*floor);
-    floor2->transform.SetRotation(glm::vec3(90, 0, 0));
-    floor2->transform.SetPosition(glm::vec3(0, 2, 0));
-   
-   
-    Model* floor3 = new Model(*floor);
-   
-    floor3->transform.SetPosition(glm::vec3(-2, 0, 0));
-    Model* floor4 = new Model(*floor);
-    floor4->transform.SetPosition(glm::vec3(2, 0, 0));
-    floor4->meshes[0]->meshMaterial->material()->useMaskTexture = false;
-    floor4->meshes[0]->meshMaterial->material()->SetBaseColor(glm::vec4(1, 1, 1, 0.5f));
+    LightRender();
 
-    
-    
+    ModelRender();
+}
 
+void ApplicationRenderer::LightRender()
+{
+    Light* directionLight = new Light();
+    directionLight->Initialize(LightType::DIRECTION_LIGHT, 1);
+    directionLight->SetAmbientColor(glm::vec4(0.4f, 0.4f, 0.4f, 1.0f));
 
-     Model* directionLightModel = new Model("Models/DefaultSphere/Sphere_1_unit_Radius.ply",false, true);
-     directionLightModel->transform.SetScale(glm::vec3(0.5f));
-    // Model* spotlight = new Model(*Sphere);
-     //spotlight->transform.SetPosition(glm::vec3(-2.0f, 0.0f, -3.0f));
+    directionLight->SetColor(glm::vec4(1, 1, 1, 1.0f));
+    directionLight->SetAttenuation(1, 1, 0.01f);
+    directionLight->SetInnerAndOuterCutoffAngle(11, 12);
 
-     Light* directionLight = new Light();
-     directionLight->Initialize(LightType::DIRECTION_LIGHT, 1);
-     directionLight->SetAmbientColor(glm::vec4(0.2f, 0.2f, 0.2f, 1.0f));
+    directionLight->transform.SetRotation(glm::vec3(0, 78, 0));
+    directionLight->transform.SetPosition(glm::vec3(0, 0, 5));
 
-     directionLight->SetColor(glm::vec4(1, 1, 1, 1.0f));
-     directionLight->SetAttenuation(1, 1, 0.01f);
-     directionLight->SetInnerAndOuterCutoffAngle(11, 12);
-
-     directionLight->transform.SetRotation(glm::vec3(0, 0, 5));
-     directionLight->transform.SetPosition(glm::vec3(0, 0, 5));
-    
-    
-     Model* plant = new Model("Models/Plant.fbm/Plant.fbx");
-     Texture* plantAlphaTexture = new Texture();
-
-     Model* quadWithTexture = new Model("Models/DefaultQuad/DefaultQuad.fbx");
-     quadWithTexture->transform.SetPosition(glm::vec3(5, 0, 0));
-     quadWithTexture->meshes[0]->meshMaterial->material()->diffuseTexture = renderTextureCamera->renderTexture;
-
-
-
-     GraphicsRender::GetInstance().AddModelAndShader(plant, alphaCutoutShader);
-     GraphicsRender::GetInstance().AddModelAndShader(quadWithTexture, alphaCutoutShader);
-     GraphicsRender::GetInstance().AddModelAndShader(floor, defaultShader);
-     GraphicsRender::GetInstance().AddModelAndShader(floor2, defaultShader);
-     GraphicsRender::GetInstance().AddModelAndShader(floor3, defaultShader);
-     GraphicsRender::GetInstance().AddModelAndShader(floor4, alphaBlendShader);
- 
-     //LightRenderer
-     //LightManager::GetInstance().AddLight(directionLight);
-    // lightManager.AddLight(directionLight);
-   //  lightManager.AddNewLight(spot);
-   //  lightManager.SetUniforms(defaultShader->ID);
-   //  PhysicsObject* SpherePhyiscs = new PhysicsObject(Sphere);
-   //  SpherePhyiscs->Initialize(false, true, DYNAMIC);
-
-   //  PhysicsEngine.AddPhysicsObjects(SpherePhyiscs);
-
-  
 
 }
+
+void ApplicationRenderer::ModelRender()
+{
+   /* Model* quadWithTexture = new Model("Models/DefaultQuad/DefaultQuad.fbx");
+    quadWithTexture->transform.SetPosition(glm::vec3(5, 0, 0));
+    quadWithTexture->meshes[0]->meshMaterial->material()->diffuseTexture = renderTextureCamera->renderTexture;
+
+    GraphicsRender::GetInstance().AddModelAndShader(quadWithTexture, defaultShader);*/
+
+
+    std::string texturePath = "Models/Scene/dungeon_texture.png";
+
+    Texture* dungeonTexure = new Texture(texturePath);
+
+
+    Model* floor1 = new Model("Models/Scene/floor_tile_small.fbx");
+
+    for (int row = 1; row <9; row++)
+    {
+        for (size_t column = 1; column < 9; column++)
+        {
+            Model* floorCopy = new Model(*floor1);
+            floorCopy->name = "Floor " + std::to_string(row);
+            floorCopy->meshes[0]->meshMaterial->material()->diffuseTexture = dungeonTexure;
+            floorCopy->transform.SetPosition(glm::vec3(2 * column, -1.10f, 2*row));
+            floorCopy->transform.SetScale(glm::vec3(1));
+            GraphicsRender::GetInstance().AddModelAndShader(floorCopy, defaultShader);
+        }
+
+    }
+
+    Model* wall = new Model("Models/Scene/wall.fbx");
+
+    int wallNumber = 0;
+    for (int i = 1; i <5; ++i) 
+    {
+        Model* walCopy = new Model(*wall);
+        walCopy->name = "Wall " + std::to_string(wallNumber);
+        walCopy->meshes[0]->meshMaterial->material()->diffuseTexture = dungeonTexure;
+        walCopy->transform.SetPosition(glm::vec3(3 + (i - 1) * 4, -1.10f, 1.5f));
+        GraphicsRender::GetInstance().AddModelAndShader(walCopy, defaultShader);
+        wallNumber++;
+    }
+
+
+    for (int i = 1; i < 5; ++i)
+    {
+        Model* walCopy = new Model(*wall);
+        walCopy->name = "Wall " + std::to_string(wallNumber);
+        walCopy->meshes[0]->meshMaterial->material()->diffuseTexture = dungeonTexure;
+        walCopy->transform.SetPosition(glm::vec3(3 + (i - 1) * 4, -1.10f, 16.5f));
+        GraphicsRender::GetInstance().AddModelAndShader(walCopy, defaultShader);
+
+        wallNumber++;
+
+    }
+
+
+    Model* walCopy = new Model(*wall);
+    walCopy->name = "Wall " + std::to_string(wallNumber++);
+    walCopy->meshes[0]->meshMaterial->material()->diffuseTexture = dungeonTexure;
+    walCopy->transform.SetPosition(glm::vec3(1.50f, -1.10f, 9.00f));
+    walCopy->transform.SetRotation(glm::vec3(0, 90.00f, 0));
+    walCopy->transform.SetScale(glm::vec3(3.5f,1.0f,1.0f));
+    GraphicsRender::GetInstance().AddModelAndShader(walCopy, defaultShader);
+
+    Model* walCopy2 = new Model(*wall);
+    walCopy2->name = "Wall " + std::to_string(wallNumber++);
+    walCopy2->meshes[0]->meshMaterial->material()->diffuseTexture = dungeonTexure;
+    walCopy2->transform.SetPosition(glm::vec3(16.50f, -1.10f, 9.00f));
+    walCopy2->transform.SetRotation(glm::vec3(0, 90.00f, 0));
+    walCopy2->transform.SetScale(glm::vec3(3.5f, 1.0f, 1.0f));
+    GraphicsRender::GetInstance().AddModelAndShader(walCopy2, defaultShader);
+
+
+
+
+
+
+}
+
 
 void ApplicationRenderer::PreRender()
 {
@@ -516,6 +552,7 @@ void ApplicationRenderer::Clear()
     GLCALL(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT));
    //glStencilMask(0x00);
 }
+
 
 void ApplicationRenderer::ProcessInput(GLFWwindow* window)
 {

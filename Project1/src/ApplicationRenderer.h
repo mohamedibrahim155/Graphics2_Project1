@@ -49,6 +49,9 @@ public:
 	void PostRender();
 	void Clear();
 
+	void LightRender();
+	void ModelRender();
+
 	void ProcessInput(GLFWwindow* window);
 
 	void EngineGraphicsRender();
