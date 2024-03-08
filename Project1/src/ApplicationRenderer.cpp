@@ -580,6 +580,8 @@ void ApplicationRenderer::ModelRender()
 
 
     Light* pointLight4 = new Light();
+    pointLight4->name = "pointLight4";
+
     pointLight4->Initialize(POINT_LIGHT, 0.75f);
     pointLight4->SetAmbientColor(glm::vec4(0.2f, 0.2f, 0.2f, 1));
     pointLight4->SetAttenuation(0.5f, 1, 0.5f);
@@ -597,12 +599,13 @@ void ApplicationRenderer::ModelRender()
 
 
     Light* pointLight5 = new Light();
+    pointLight5->name = "Point light5";
     pointLight5->Initialize(POINT_LIGHT, 0.75f);
     pointLight5->SetAmbientColor(glm::vec4(0.2f, 0.2f, 0.2f, 1));
     pointLight5->SetAttenuation(0.5f, 1, 0.5f);
     pointLight5->SetInnerAndOuterCutoffAngle(10, 15);
     pointLight5->SetColor(1, 0, 0, 1);
-    pointLight5->transform.SetPosition(glm::vec3(1.75f, 1.750f, 13.50f));
+    pointLight5->transform.SetPosition(glm::vec3(2, 1.750f, 13.50f));
     pointLight5->isVisible = false;
 
 
@@ -614,12 +617,14 @@ void ApplicationRenderer::ModelRender()
     GraphicsRender::GetInstance().AddModelAndShader(torch_mounted6, defaultShader);
 
     Light* pointLight6 = new Light();
+    pointLight6->name = "Point light6";
+
     pointLight6->Initialize(POINT_LIGHT, 0.75f);
     pointLight6->SetAmbientColor(glm::vec4(0.2f, 0.2f, 0.2f, 1));
     pointLight6->SetAttenuation(0.5f, 1, 0.5f);
     pointLight6->SetInnerAndOuterCutoffAngle(10, 15);
     pointLight6->SetColor(1, 0, 0, 1);
-    pointLight6->transform.SetPosition(glm::vec3(1.75f, 1.750f, 23.50f));
+    pointLight6->transform.SetPosition(glm::vec3(2, 1.750f, 23.50f));
     pointLight6->isVisible = false;
 
     Model* torch_mounted7 = new Model("Models/Scene/torch_mounted.fbx");
@@ -636,7 +641,7 @@ void ApplicationRenderer::ModelRender()
     pointLight7->SetAttenuation(0.5f, 1, 0.5f);
     pointLight7->SetInnerAndOuterCutoffAngle(10, 15);
     pointLight7->SetColor(1, 0, 0, 1);
-    pointLight7->transform.SetPosition(glm::vec3(1.75f, 1.750f, 17.70f));
+    pointLight7->transform.SetPosition(glm::vec3(2, 1.750f, 17.70f));
     pointLight7->isVisible = false;
 
 
@@ -653,7 +658,7 @@ void ApplicationRenderer::ModelRender()
     pointLight8->SetAttenuation(0.5f, 1, 0.5f);
     pointLight8->SetInnerAndOuterCutoffAngle(10, 15);
     pointLight8->SetColor(1, 0, 0, 1);
-    pointLight8->transform.SetPosition(glm::vec3(1.75f, 1.750f, 20.50f));
+    pointLight8->transform.SetPosition(glm::vec3(2, 1.750f, 20.50f));
     pointLight8->isVisible = false;
 
     Model* torch_mounted9 = new Model("Models/Scene/torch_mounted.fbx");
@@ -669,7 +674,7 @@ void ApplicationRenderer::ModelRender()
     pointLight9->SetAttenuation(0.5f, 1, 0.5f);
     pointLight9->SetInnerAndOuterCutoffAngle(10, 15);
     pointLight9->SetColor(1, 0, 0, 1);
-    pointLight9->transform.SetPosition(glm::vec3(1.75f, 1.750f, 9.10f));
+    pointLight9->transform.SetPosition(glm::vec3(2, 1.750f, 9.10f));
     pointLight9->isVisible = false;
 
 
@@ -790,6 +795,43 @@ void ApplicationRenderer::ModelRender()
     pointLight16->SetColor(1, 0, 0, 1);
     pointLight16->transform.SetPosition(glm::vec3(26.10f, 1.650f, 28.30f));
     pointLight16->isVisible = false;
+
+
+    /*Model* sword_shield_gold2 = new Model("Models/Scene/sword_shield_gold.fbx");
+    sword_shield_gold2->name = "sword_shield_gold2 ";
+    sword_shield_gold2->meshes[0]->meshMaterial->material()->diffuseTexture = dungeonTexure;
+    sword_shield_gold2->transform.SetPosition(glm::vec3(23.00f, 1.00f, 28.00f));
+    sword_shield_gold2->transform.SetRotation(glm::vec3(0, 180, 0));
+    GraphicsRender::GetInstance().AddModelAndShader(sword_shield_gold2, defaultShader);*/
+
+
+
+    Light* spotLight1 = new Light();
+    spotLight1->Initialize(SPOT_LIGHT, 0.75f);
+    spotLight1->SetAmbientColor(glm::vec4(0.4f, 0.4f, 0.4f, 1));
+    spotLight1->SetAttenuation(0.5f, 0.5f, 0.5f);
+    spotLight1->SetInnerAndOuterCutoffAngle(20, 25);
+    spotLight1->SetColor(10, 4, 0, 1);
+    spotLight1->transform.SetPosition(glm::vec3(23.00f, 3, 28.00f));
+    spotLight1->transform.SetRotation(glm::vec3(-90, -90, 0));
+    spotLight1->isVisible = false;
+
+
+    //Model* sword_shield_gold = new Model("Models/Scene/sword_shield_gold.fbx");
+    //sword_shield_gold->name = "sword_shield_gold ";
+    //sword_shield_gold->meshes[0]->meshMaterial->material()->diffuseTexture = dungeonTexure;
+    //sword_shield_gold->transform.SetPosition(glm::vec3(9.00f, 1.00f, 2.00f));
+    //GraphicsRender::GetInstance().AddModelAndShader(sword_shield_gold, defaultShader);
+
+    Light* spotLight2 = new Light();
+    spotLight2->Initialize(SPOT_LIGHT, 0.75f);
+    spotLight2->SetAmbientColor(glm::vec4(0.4f, 0.4f, 0.4f, 1));
+    spotLight2->SetAttenuation(0.5f, 0.5f, 0.5f);
+    spotLight2->SetInnerAndOuterCutoffAngle(20, 25);
+    spotLight2->SetColor(10, 4, 0, 1);
+    spotLight2->transform.SetPosition(glm::vec3(9.00f, 3, 2.00f));
+    spotLight2->transform.SetRotation(glm::vec3(-90, -90, 0));
+    spotLight2->isVisible = false;
 
 #pragma endregion
 
@@ -1129,7 +1171,7 @@ void ApplicationRenderer::ProcessInput(GLFWwindow* window)
 
     float cameraSpeed=10;
 
-    if (EditorLayout::GetInstance().IsViewportHovered())
+    if (EditorLayout::GetInstance().IsViewportHovered() && (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS))
     {
         if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
         {
@@ -1224,7 +1266,7 @@ void ApplicationRenderer::ProcessInput(GLFWwindow* window)
          lastX = xpos;
          lastY = ypos;
      
-         if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS && EditorLayout::GetInstance().IsViewportHovered())
+         if ((glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS )&& EditorLayout::GetInstance().IsViewportHovered())
          {
              sceneViewcamera->ProcessMouseMovement(xoffset, yoffset);
          }
